@@ -2,10 +2,10 @@
   "name": "vue-prlx",
   "version": "0.0.1",
   "description": "Vue.js parallax directive (can parallax translate & background-position)",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "babel-node src",
-    "build": "rimraf lib && babel src -d lib"
+    "build": "rimraf lib && babel src -d dist"
   },
   "repository": {
     "type": "git",

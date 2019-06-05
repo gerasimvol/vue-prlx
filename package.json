@@ -1,0 +1,35 @@
+{
+  "name": "vue-prlx",
+  "version": "0.0.1",
+  "description": "Vue.js parallax directive (can parallax translate & background-position)",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "babel-node src",
+    "build": "rimraf lib && babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gerasimvol/vue-prlx.git"
+  },
+  "keywords": [
+    "vue",
+    "parallax",
+    "paralax",
+    "directive",
+    "scroll"
+  ],
+  "author": "Vladimir Gerasimenko <vol.gerasimenko@gmail.com> (https://github.com/gerasimvol)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gerasimvol/vue-prlx/issues"
+  },
+  "homepage": "https://github.com/gerasimvol/vue-prlx#readme",
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "rimraf": "^2.6.3"
+  }
+}

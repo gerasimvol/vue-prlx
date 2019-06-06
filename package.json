@@ -1,35 +1,40 @@
 {
   "name": "vue-prlx",
-  "version": "0.0.3",
-  "description": "Vue.js parallax directive (can parallax translate & background-position)",
-  "main": "dist/index.js",
+  "version": "0.1.0",
+  "description": "Vue.js parallax directive you were loking for",
+  "main": "dist/v-prlx.js",
+  "module": "dist/v-prlx.esm.js",
   "scripts": {
-    "start": "babel-node src",
-    "build": "rimraf lib && babel src -d dist"
+    "build": "npm run bundle && npm run bundle:min",
+    "bundle": "rollup -c build/rollup.conf.js",
+    "bundle:min": "rollup -c build/rollup.conf.min.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gerasimvol/vue-prlx.git"
   },
   "keywords": [
+    "vue.js",
+    "vue-parallax",
     "vue",
     "parallax",
     "paralax",
     "directive",
     "scroll"
   ],
-  "author": "Vladimir Gerasimenko <vol.gerasimenko@gmail.com> (https://github.com/gerasimvol)",
+  "author": "Vladimir Gerasimenko <vol.gerasimenko@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gerasimvol/vue-prlx/issues"
   },
   "homepage": "https://github.com/gerasimvol/vue-prlx#readme",
-  "dependencies": {
-    "lodash.get": "^4.4.2"
-  },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "rimraf": "^2.6.3"
+    "@babel/core": "7.4.5",
+    "@babel/preset-env": "7.4.5",
+    "babel-core": "7.0.0-bridge.0",
+    "rollup": "1.14.2",
+    "rollup-plugin-babel": "4.3.2",
+    "rollup-plugin-node-resolve": "5.0.1",
+    "rollup-plugin-terser": "5.0.0"
   }
 }

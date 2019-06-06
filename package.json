@@ -1,6 +1,6 @@
 {
   "name": "vue-prlx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vue.js parallax directive you were loking for",
   "main": "dist/v-prlx.js",
   "module": "dist/v-prlx.esm.js",
@@ -14,11 +14,11 @@
     "url": "git+https://github.com/gerasimvol/vue-prlx.git"
   },
   "keywords": [
+    "vue",
     "vue.js",
     "vue-parallax",
-    "vue",
+    "v-prlx",
     "parallax",
-    "paralax",
     "directive",
     "scroll"
   ],

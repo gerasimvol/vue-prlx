@@ -1,7 +1,7 @@
 {
   "name": "vue-prlx",
-  "version": "0.1.1",
-  "description": "Vue.js parallax directive you were loking for",
+  "version": "0.1.2",
+  "description": "Vue.js parallax directive you were looking for",
   "main": "dist/v-prlx.js",
   "module": "dist/v-prlx.esm.js",
   "scripts": {

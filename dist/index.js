@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var requestAnimationFrameId = void 0;
 
-exports.default = _vue2.default.directive('parallax', {
+exports.default = _vue2.default.directive('prlx', {
   bind: function bind(el, _ref, _ref2) {
     var modifiers = _ref.modifiers,
         value = _ref.value;

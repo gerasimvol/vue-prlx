@@ -100,11 +100,7 @@ function parallaxTransform (el, offset, direction) {
 
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h >= 0
 
-function _get ( object, keys, defaultVal ) {
-  keys = Array.isArray( keys )? keys : keys.split('.');
-  object = object[keys[0]];
-  if( object && keys.length>1 ){
-    return getProp( object, keys.slice(1) );
-  }
-  return object === undefined? defaultVal : object;
-}
+const _get = (obj, path, defaultValue = null) =>
+  String.prototype.split.call(path, /[,[\].]+?/)
+    .filter(Boolean)
+    .reduce((a, c) => (Object.hasOwnProperty.call(a,c) ? a[c] : defaultValue), obj)

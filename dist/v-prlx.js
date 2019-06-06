@@ -90,7 +90,9 @@
     return t <= innerHeight && t + h >= 0;
   };
 
-  var _get = function _get(obj, path) {
+  var _get = function _get() {
+    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
     var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     return String.prototype.split.call(path, /[,[\].]+?/).filter(Boolean).reduce(function (a, c) {
       return Object.hasOwnProperty.call(a, c) ? a[c] : defaultValue;

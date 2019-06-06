@@ -4,7 +4,6 @@ let requestAnimationFrameId
 export default {
   bind: function (el, { modifiers, value }) {
     // SETUP SETTING
-
     const settings = {
       // {boolean} – enable parallax on mobile
       isParallaxOnMobile: _get(modifiers, 'mobile', false),
@@ -44,6 +43,8 @@ export default {
   }
 }
 
+
+
 // HELPER FUNCTIONS
 function init (el, settings) {
   // START PARALLAX FROM MIDDLE OR BOTTOM OF THE SCREEN
@@ -67,6 +68,7 @@ function init (el, settings) {
   requestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings))
 }
 
+
 function animate (el, scrollPosition, settings) {
   let offset = scrollPosition * settings.speed
 
@@ -83,6 +85,7 @@ function animate (el, scrollPosition, settings) {
   parallaxType(el, offset, settings.direction)
 }
 
+
 function parallaxBackgroundPosition (el, offset, direction) {
   el.style.transition = `background-position 0.1s ease-out`
 
@@ -93,14 +96,17 @@ function parallaxBackgroundPosition (el, offset, direction) {
   }
 }
 
+
 function parallaxTransform (el, offset, direction) {
   el.style.transition = `transform 0.1s ease-out`
   el.style.transform = `translate${direction.toUpperCase()}(${offset}px)`
 }
 
+
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h >= 0
 
-const _get = (obj, path, defaultValue = null) =>
+
+const _get = (obj = {}, path = '', defaultValue = null) =>
   String.prototype.split.call(path, /[,[\].]+?/)
     .filter(Boolean)
-    .reduce((a, c) => (Object.hasOwnProperty.call(a,c) ? a[c] : defaultValue), obj)
+    .reduce((a, c) => (Object.hasOwnProperty.call(a, c) ? a[c] : defaultValue), obj)

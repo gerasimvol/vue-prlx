@@ -84,16 +84,12 @@ var isInViewport = function isInViewport(el) {
   return t <= innerHeight && t + h >= 0;
 };
 
-function _get(object, keys, defaultVal) {
-  keys = Array.isArray(keys) ? keys : keys.split('.');
-  object = object[keys[0]];
-
-  if (object && keys.length > 1) {
-    return getProp(object, keys.slice(1));
-  }
-
-  return object === undefined ? defaultVal : object;
-}
+var _get = function _get(obj, path) {
+  var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return String.prototype.split.call(path, /[,[\].]+?/).filter(Boolean).reduce(function (a, c) {
+    return Object.hasOwnProperty.call(a, c) ? a[c] : defaultValue;
+  }, obj);
+};
 
 var _plugin = (function (Vue) {
   Vue.directive('prlx', directive);

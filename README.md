@@ -8,7 +8,7 @@
 import Vue from 'vue'
 
 // As a plugin
-import VuePrlx from 'v-mask'
+import VuePrlx from 'vue-prlx'
 Vue.use(VuePrlx);
 
 // Or as a directive

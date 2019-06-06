@@ -3,7 +3,7 @@ import _get from 'lodash.get'
 
 let requestAnimationFrameId
 
-export default Vue.directive('parallax', {
+export default Vue.directive('prlx', {
   bind: function (el, { modifiers, value }, { context }) {
     // SETUP SETTING
 

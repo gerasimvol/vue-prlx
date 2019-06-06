@@ -1,6 +1,6 @@
 {
   "name": "vue-prlx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vue.js parallax directive (can parallax translate & background-position)",
   "main": "dist/index.js",
   "scripts": {

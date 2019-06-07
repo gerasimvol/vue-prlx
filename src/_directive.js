@@ -1,26 +1,31 @@
-let requestAnimationFrameId
-
 // VUE DIRECTIVE DEFINITION
 export default {
-  bind: function (el, { modifiers, value }) {
+  bind: function (el, { modifiers = {}, value = {} }) {
     // SETUP SETTING
     const settings = {
       // {boolean} – enable parallax on mobile
-      isParallaxOnMobile: _get(modifiers, 'mobile', false),
+      isParallaxOnMobile: modifiers.mobile || false,
+
       // {boolean} – animate background-position instead of translate
-      background: _get(modifiers, 'background', false),
+      background: modifiers.background || false,
+
       // {boolean} – start parallax from very bottom of the page instead of middle
-      startParallaxFromBottom: _get(value, 'fromBottom', false),
+      startParallaxFromBottom: modifiers.fromBottom || false,
+
       // {number} – parallax power
-      speed: _get(value, 'speed', 0.15),
+      speed: value.speed || 0.15,
+
       // {boolean} – can parallax to negative values
-      preserveInitialPosition: _get(value, 'preserveInitialPosition', true),
+      preserveInitialPosition: value.preserveInitialPosition || true,
+
       // {string} – 'x' - horizontal parallax, 'y' - vertical
-      direction: _get(value, 'direction', 'y'),
+      direction: value.direction || 'y',
+
       // {object} – limit.min, limit.max offset
-      limit: _get(value, 'limit', null),
+      limit: value.limit || null,
+
       // {number} – mobile max width
-      mobileMaxWidth: _get(value, 'mobileMaxWidth', 768)
+      mobileMaxWidth: value.mobileMaxWidth || 768
     }
 
     // REDUCE SPEED FOR BACKGROUND PARALLAX
@@ -38,8 +43,9 @@ export default {
     }
   },
   
-  unbind: function () {
-    window.cancelAnimationFrame(requestAnimationFrameId)
+  unbind: function (el) {
+    window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId)
+    delete el.__prlxRequestAnimationFrameId
   }
 }
 
@@ -65,7 +71,7 @@ function init (el, settings) {
     animate(el, scrollPosition, settings)
   }
 
-  requestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings))
+  el.__prlxRequestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings))
 }
 
 
@@ -104,9 +110,3 @@ function parallaxTransform (el, offset, direction) {
 
 
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h >= 0
-
-
-const _get = (obj = {}, path = '', defaultValue = null) =>
-  String.prototype.split.call(path, /[,[\].]+?/)
-    .filter(Boolean)
-    .reduce((a, c) => (Object.hasOwnProperty.call(a, c) ? a[c] : defaultValue), obj)

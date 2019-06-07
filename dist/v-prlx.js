@@ -4,20 +4,21 @@
   (global = global || self, factory(global.VuePrlx = {}));
 }(this, function (exports) { 'use strict';
 
-  var requestAnimationFrameId;
   var directive = {
     bind: function bind(el, _ref) {
-      var modifiers = _ref.modifiers,
-          value = _ref.value;
+      var _ref$modifiers = _ref.modifiers,
+          modifiers = _ref$modifiers === void 0 ? {} : _ref$modifiers,
+          _ref$value = _ref.value,
+          value = _ref$value === void 0 ? {} : _ref$value;
       var settings = {
-        isParallaxOnMobile: _get(modifiers, 'mobile', false),
-        background: _get(modifiers, 'background', false),
-        startParallaxFromBottom: _get(value, 'fromBottom', false),
-        speed: _get(value, 'speed', 0.15),
-        preserveInitialPosition: _get(value, 'preserveInitialPosition', true),
-        direction: _get(value, 'direction', 'y'),
-        limit: _get(value, 'limit', null),
-        mobileMaxWidth: _get(value, 'mobileMaxWidth', 768)
+        isParallaxOnMobile: modifiers.mobile || false,
+        background: modifiers.background || false,
+        startParallaxFromBottom: modifiers.fromBottom || false,
+        speed: value.speed || 0.15,
+        preserveInitialPosition: value.preserveInitialPosition || true,
+        direction: value.direction || 'y',
+        limit: value.limit || null,
+        mobileMaxWidth: value.mobileMaxWidth || 768
       };
 
       if (settings.background) {
@@ -34,8 +35,9 @@
         init(el, settings);
       }
     },
-    unbind: function unbind() {
-      window.cancelAnimationFrame(requestAnimationFrameId);
+    unbind: function unbind(el) {
+      window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId);
+      delete el.__prlxRequestAnimationFrameId;
     }
   };
 
@@ -52,7 +54,7 @@
       animate(el, scrollPosition, settings);
     }
 
-    requestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings));
+    el.__prlxRequestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings));
   }
 
   function animate(el, scrollPosition, settings) {
@@ -88,15 +90,6 @@
         h = _ref2.height;
 
     return t <= innerHeight && t + h >= 0;
-  };
-
-  var _get = function _get() {
-    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-    var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    return String.prototype.split.call(path, /[,[\].]+?/).filter(Boolean).reduce(function (a, c) {
-      return Object.hasOwnProperty.call(a, c) ? a[c] : defaultValue;
-    }, obj);
   };
 
   var _plugin = (function (Vue) {

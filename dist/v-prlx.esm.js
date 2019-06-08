@@ -7,9 +7,11 @@ var directive = {
     var settings = {
       isParallaxOnMobile: modifiers.mobile || false,
       background: modifiers.background || false,
-      startParallaxFromBottom: modifiers.fromBottom || false,
+      startParallaxFromBottom: value.fromBottom || false,
+      justAddParallaxValue: value.custom || false,
+      reverse: value.reverse || false,
       speed: value.speed || 0.15,
-      preserveInitialPosition: value.preserveInitialPosition || true,
+      preserveInitialPosition: value.preserveInitialPosition === false ? value.preserveInitialPosition : true,
       direction: value.direction || 'y',
       limit: value.limit || null,
       mobileMaxWidth: value.mobileMaxWidth || 768
@@ -21,6 +23,10 @@ var directive = {
         min: 0,
         max: 100
       };
+    }
+
+    if (settings.reverse) {
+      settings.speed = -settings.speed;
     }
 
     var shouldParallax = !(window.innerWidth < 768 && !settings.isParallaxOnMobile);
@@ -59,7 +65,16 @@ function animate(el, scrollPosition, settings) {
     if (offset < settings.limit.min) offset = settings.limit.min;
   }
 
-  var parallaxType = settings.background ? parallaxBackgroundPosition : parallaxTransform;
+  var parallaxType;
+
+  if (settings.background) {
+    parallaxType = parallaxBackgroundPosition;
+  } else if (settings.justAddParallaxValue) {
+    parallaxType = addParallaxValueAsCssVariable;
+  } else {
+    parallaxType = parallaxTransform;
+  }
+
   parallaxType(el, offset, settings.direction);
 }
 
@@ -76,6 +91,10 @@ function parallaxBackgroundPosition(el, offset, direction) {
 function parallaxTransform(el, offset, direction) {
   el.style.transition = "transform 0.1s ease-out";
   el.style.transform = "translate".concat(direction.toUpperCase(), "(").concat(offset, "px)");
+}
+
+function addParallaxValueAsCssVariable(el, offset) {
+  el.style.setProperty('--parallax-value', offset);
 }
 
 var isInViewport = function isInViewport(el) {

@@ -10,13 +10,22 @@ export default {
       background: modifiers.background || false,
 
       // {boolean} – start parallax from very bottom of the page instead of middle
-      startParallaxFromBottom: modifiers.fromBottom || false,
+      startParallaxFromBottom: value.fromBottom || false,
+
+      // {boolean} – just add '--parallax-value' css variable to element for your custom animations
+      // so add css for example: transform: scale(calc(var(--parallax-value) / 50 ))
+      justAddParallaxValue: value.custom || false,
+
+      // {boolean} – reverse direction
+      reverse: value.reverse || false,
 
       // {number} – parallax power
       speed: value.speed || 0.15,
 
       // {boolean} – can parallax to negative values
-      preserveInitialPosition: value.preserveInitialPosition || true,
+      preserveInitialPosition: value.preserveInitialPosition === false
+        ? value.preserveInitialPosition
+        : true,
 
       // {string} – 'x' - horizontal parallax, 'y' - vertical
       direction: value.direction || 'y',
@@ -37,12 +46,17 @@ export default {
       }
     }
 
+    // REVERSE DIRECTION
+    if (settings.reverse) {
+      settings.speed = -settings.speed
+    }
+
     const shouldParallax = !(window.innerWidth < 768 && !settings.isParallaxOnMobile)
     if (shouldParallax) {
       init(el, settings)
     }
   },
-  
+
   unbind: function (el) {
     window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId)
     delete el.__prlxRequestAnimationFrameId
@@ -50,8 +64,8 @@ export default {
 }
 
 
+// FUNCTIONS
 
-// HELPER FUNCTIONS
 function init (el, settings) {
   // START PARALLAX FROM MIDDLE OR BOTTOM OF THE SCREEN
   const startingPoint = settings.startParallaxFromBottom
@@ -85,9 +99,16 @@ function animate (el, scrollPosition, settings) {
   }
 
   // RUN PARALLAX
-  const parallaxType = settings.background
-    ? parallaxBackgroundPosition
-    : parallaxTransform
+  let parallaxType
+
+  if (settings.background) {
+    parallaxType = parallaxBackgroundPosition
+  } else if (settings.justAddParallaxValue) {
+    parallaxType = addParallaxValueAsCssVariable
+  } else {
+    parallaxType = parallaxTransform
+  }
+
   parallaxType(el, offset, settings.direction)
 }
 
@@ -106,6 +127,11 @@ function parallaxBackgroundPosition (el, offset, direction) {
 function parallaxTransform (el, offset, direction) {
   el.style.transition = `transform 0.1s ease-out`
   el.style.transform = `translate${direction.toUpperCase()}(${offset}px)`
+}
+
+
+function addParallaxValueAsCssVariable (el, offset) {
+  el.style.setProperty('--parallax-value', offset)
 }
 
 

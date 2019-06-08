@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/vue-prlx.svg)](vue-prlx) ![npm](https://img.shields.io/npm/dt/vue-prlx.svg)
 
-## [Demo and docs](vue-prlx.surge.sh)
+## [Demo and docs](http://vue-prlx.surge.sh)
 
 ### Initialization
 

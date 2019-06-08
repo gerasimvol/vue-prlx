@@ -1,4 +1,4 @@
-# Demo and docs coming soon...
+# [Demo and docs](vue-prlx.surge.sh)
 
 ## Initialization
 

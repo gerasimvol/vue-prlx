@@ -29,7 +29,7 @@ var directive = {
       settings.speed = -settings.speed;
     }
 
-    var shouldParallax = !(window.innerWidth < 768 && !settings.isParallaxOnMobile);
+    var shouldParallax = !(window.innerWidth < settings.mobileMaxWidth && !settings.isParallaxOnMobile);
 
     if (shouldParallax) {
       init(el, settings);

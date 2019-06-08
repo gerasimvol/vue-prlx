@@ -51,7 +51,7 @@ export default {
       settings.speed = -settings.speed
     }
 
-    const shouldParallax = !(window.innerWidth < 768 && !settings.isParallaxOnMobile)
+    const shouldParallax = !(window.innerWidth < settings.mobileMaxWidth && !settings.isParallaxOnMobile)
     if (shouldParallax) {
       init(el, settings)
     }

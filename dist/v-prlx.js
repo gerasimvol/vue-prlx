@@ -35,7 +35,8 @@
         settings.speed = -settings.speed;
       }
 
-      var shouldParallax = !(window.innerWidth < settings.mobileMaxWidth && !settings.isParallaxOnMobile);
+      var isMobile = window.innerWidth < settings.mobileMaxWidth;
+      var shouldParallax = isMobile ? settings.isParallaxOnMobile : true;
 
       if (shouldParallax) {
         init(el, settings);

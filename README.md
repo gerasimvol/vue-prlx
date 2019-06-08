@@ -1,8 +1,12 @@
-# [Demo and docs](vue-prlx.surge.sh)
+# vue-prlx
 
-## Initialization
+[![npm](https://img.shields.io/npm/v/vue-prlx.svg)](vue-prlx) ![npm](https://img.shields.io/npm/dt/vue-prlx.svg)
 
-### ES2015 (Webpack/Rollup/Browserify/etc)
+## [Demo and docs](vue-prlx.surge.sh)
+
+### Initialization
+
+#### ES2015 (Webpack/Rollup/Browserify/etc)
 
 ```javascript
 import Vue from 'vue'
@@ -16,7 +20,7 @@ import { VuePrlxDirective } from 'vue-prlx'
 Vue.directive('prlx', VuePrlxDirective);
 ```
 
-### UMD (Browser)
+#### UMD (Browser)
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>

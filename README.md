@@ -2,9 +2,20 @@
 
 [![npm](https://img.shields.io/npm/v/vue-prlx.svg)](vue-prlx) ![npm](https://img.shields.io/npm/dt/vue-prlx.svg)
 
-## [Demo and docs](http://vue-prlx.surge.sh)
+## [Demo and settings](http://vue-prlx.surge.sh)
 
-### Initialization
+
+### 🛠 Install
+
+```bash
+npm i vue-prlx
+```
+
+```bash
+yarn add vue-prlx
+```
+
+### 🔌 Initialization
 
 #### ES2015 (Webpack/Rollup/Browserify/etc)
 
@@ -33,3 +44,5 @@ Vue.use(VuePrlx.VuePrlxPlugin);
 Vue.directive('prlx', VuePrlx.VuePrlxDirective);
 </script>
 ```
+
+### ⚙️ [Demo and settings](http://vue-prlx.surge.sh)

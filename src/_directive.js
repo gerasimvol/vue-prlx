@@ -37,9 +37,9 @@ export default {
       mobileMaxWidth: value.mobileMaxWidth || 768
     }
 
-    // REDUCE SPEED FOR BACKGROUND PARALLAX
+    // DEFAULT SETTINGS FOR BACKGROUND-POSITION
     if (settings.background) {
-      settings.speed = 0.02
+      settings.speed = value.speed || 0.02
       settings.limit = {
         min: 0,
         max: 100

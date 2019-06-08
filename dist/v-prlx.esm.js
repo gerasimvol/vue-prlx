@@ -18,7 +18,7 @@ var directive = {
     };
 
     if (settings.background) {
-      settings.speed = 0.02;
+      settings.speed = value.speed || 0.02;
       settings.limit = {
         min: 0,
         max: 100

@@ -102,7 +102,7 @@ var isInViewport = function isInViewport(el) {
       t = _ref2.top,
       h = _ref2.height;
 
-  return t <= innerHeight && t + h >= 0;
+  return t <= innerHeight && t + h > 0;
 };
 
 var _plugin = (function (Vue) {

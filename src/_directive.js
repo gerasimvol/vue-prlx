@@ -135,4 +135,4 @@ function addParallaxValueAsCssVariable (el, offset) {
 }
 
 
-const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h >= 0
+const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h > 0

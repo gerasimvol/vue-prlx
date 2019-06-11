@@ -76,7 +76,7 @@ function init (el, settings) {
     : (window.innerHeight / 2)
 
   const pageYOffset = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
-  let scrollPosition = pageYOffset - el.offsetTop + startingPoint
+  let scrollPosition = pageYOffset - el.getBoundingClientRect().top + startingPoint
 
   // DON'T PARALLAX TO NEGATIVE VALUES (START PARALLAX FROM INITIAL DOM POSITION)
   if (settings.preserveInitialPosition) {

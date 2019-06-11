@@ -45,7 +45,7 @@ var directive = {
 function init(el, settings) {
   var startingPoint = settings.startParallaxFromBottom ? window.innerHeight : window.innerHeight / 2;
   var pageYOffset = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
-  var scrollPosition = pageYOffset - el.offsetTop + startingPoint;
+  var scrollPosition = pageYOffset - el.getBoundingClientRect().top + startingPoint;
 
   if (settings.preserveInitialPosition) {
     if (scrollPosition < 0) scrollPosition = 0;

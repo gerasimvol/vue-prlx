@@ -76,7 +76,7 @@ function init (el, settings) {
     : (window.innerHeight / 2)
 
   const pageYOffset = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
-  let scrollPosition = pageYOffset - el.getBoundingClientRect().top + startingPoint
+  let scrollPosition = pageYOffset - offsetTopFromWindow(el) + startingPoint
 
   // DON'T PARALLAX TO NEGATIVE VALUES (START PARALLAX FROM INITIAL DOM POSITION)
   if (settings.preserveInitialPosition) {
@@ -139,3 +139,13 @@ function addParallaxValueAsCssVariable (el, offset) {
 
 
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h > 0
+
+const offsetTopFromWindow = element => {
+  let top = 0
+  do {
+    top += element.offsetTop || 0
+    element = element.offsetParent
+  } while (element)
+
+  return top
+}

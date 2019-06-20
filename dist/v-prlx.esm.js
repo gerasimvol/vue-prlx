@@ -45,7 +45,7 @@ var directive = {
 function init(el, settings) {
   var startingPoint = settings.startParallaxFromBottom ? window.innerHeight : window.innerHeight / 2;
   var pageYOffset = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
-  var scrollPosition = pageYOffset - el.getBoundingClientRect().top + startingPoint;
+  var scrollPosition = pageYOffset - offsetTopFromWindow(el) + startingPoint;
 
   if (settings.preserveInitialPosition) {
     if (scrollPosition < 0) scrollPosition = 0;
@@ -104,6 +104,17 @@ var isInViewport = function isInViewport(el) {
       h = _ref2.height;
 
   return t <= innerHeight && t + h > 0;
+};
+
+var offsetTopFromWindow = function offsetTopFromWindow(element) {
+  var top = 0;
+
+  do {
+    top += element.offsetTop || 0;
+    element = element.offsetParent;
+  } while (element);
+
+  return top;
 };
 
 var _plugin = (function (Vue) {

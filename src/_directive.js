@@ -55,9 +55,9 @@ export default {
     }
 
     const isMobile = window.innerWidth < settings.mobileMaxWidth
-    const shouldParallax = isMobile
-      ? settings.isParallaxOnMobile || settings.off
-      : true
+    const shouldParallax = settings.off
+      ? false
+      : isMobile ? settings.isParallaxOnMobile : true
     if (shouldParallax) {
       init(el, settings)
     }

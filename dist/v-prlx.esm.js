@@ -31,7 +31,7 @@ var directive = {
     }
 
     var isMobile = window.innerWidth < settings.mobileMaxWidth;
-    var shouldParallax = isMobile ? settings.isParallaxOnMobile || settings.off : true;
+    var shouldParallax = settings.off ? false : isMobile ? settings.isParallaxOnMobile : true;
 
     if (shouldParallax) {
       init(el, settings);

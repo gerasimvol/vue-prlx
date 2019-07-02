@@ -1,76 +1,85 @@
 // VUE DIRECTIVE DEFINITION
 export default {
-  bind: function (el, { modifiers = {}, value = {} }) {
-    // SETUP SETTING
-    const settings = {
-      // {boolean} – enable parallax on mobile
-      isParallaxOnMobile: modifiers.mobile || false,
+  bind: onBind,
 
-      // {boolean} – animate background-position instead of translate
-      background: modifiers.background || false,
+  update: onBind,
 
-      // {boolean} – start parallax from very bottom of the page instead of middle
-      startParallaxFromBottom: value.fromBottom || false,
+  unbind: onUnbind
+}
 
-      // {boolean} – just add '--parallax-value' css variable to element for your custom animations
-      // so add css for example: transform: scale(calc(var(--parallax-value) / 50 ))
-      justAddParallaxValue: value.custom || false,
+// FUNCTIONS
 
-      // {boolean} – reverse direction
-      reverse: value.reverse || false,
+function onUnbind (el) {
+  window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId)
+  delete el.__prlxRequestAnimationFrameId
+}
 
-      // {number} – parallax power
-      speed: value.speed || 0.15,
+function onBind (el, { modifiers = {}, value = {} }) {
+  // SETUP SETTING
+  const settings = {
+    // {boolean} – enable parallax on mobile
+    isParallaxOnMobile: modifiers.mobile || false,
 
-      // {boolean} – can parallax to negative values
-      preserveInitialPosition: value.preserveInitialPosition === false
-        ? value.preserveInitialPosition
-        : true,
+    // {boolean} – animate background-position instead of translate
+    background: modifiers.background || false,
 
-      // {string} – 'x' - horizontal parallax, 'y' - vertical
-      direction: value.direction || 'y',
+    // {boolean} – start parallax from very bottom of the page instead of middle
+    startParallaxFromBottom: value.fromBottom || false,
 
-      // {object} – limit.min, limit.max offset
-      limit: value.limit || null,
+    // {boolean} – just add '--parallax-value' css variable to element for your custom animations
+    // so add css for example: transform: scale(calc(var(--parallax-value) / 50 ))
+    justAddParallaxValue: value.custom || false,
 
-      // {number} – mobile max width
-      mobileMaxWidth: value.mobileMaxWidth || 768,
+    // {boolean} – reverse direction
+    reverse: value.reverse || false,
 
-      // {boolean} - directive is disabled
-      off: value.off || false
+    // {number} – parallax power
+    speed: value.speed || 0.15,
+
+    // {boolean} – can parallax to negative values
+    preserveInitialPosition: value.preserveInitialPosition === false
+      ? value.preserveInitialPosition
+      : true,
+
+    // {string} – 'x' - horizontal parallax, 'y' - vertical
+    direction: value.direction || 'y',
+
+    // {object} – limit.min, limit.max offset
+    limit: value.limit || null,
+
+    // {number} – mobile max width
+    mobileMaxWidth: value.mobileMaxWidth || 768,
+
+    // {boolean} – is parallax disabled
+    isDisabled: value.disabled || false
+  }
+
+  // DEFAULT SETTINGS FOR BACKGROUND-POSITION
+  if (settings.background) {
+    settings.speed = value.speed || 0.02
+    settings.limit = {
+      min: 0,
+      max: 100
     }
+  }
 
-    // DEFAULT SETTINGS FOR BACKGROUND-POSITION
-    if (settings.background) {
-      settings.speed = value.speed || 0.02
-      settings.limit = {
-        min: 0,
-        max: 100
-      }
-    }
+  // REVERSE DIRECTION
+  if (settings.reverse) {
+    settings.speed = -settings.speed
+  }
 
-    // REVERSE DIRECTION
-    if (settings.reverse) {
-      settings.speed = -settings.speed
-    }
-
+  if (settings.isDisabled) {
+    onUnbind(el)
+  } else {
     const isMobile = window.innerWidth < settings.mobileMaxWidth
-    const shouldParallax = settings.off
-      ? false
-      : isMobile ? settings.isParallaxOnMobile : true
+    const shouldParallax = isMobile
+      ? settings.isParallaxOnMobile
+      : true
     if (shouldParallax) {
       init(el, settings)
     }
-  },
-
-  unbind: function (el) {
-    window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId)
-    delete el.__prlxRequestAnimationFrameId
   }
 }
-
-
-// FUNCTIONS
 
 function init (el, settings) {
   // START PARALLAX FROM MIDDLE OR BOTTOM OF THE SCREEN
@@ -93,7 +102,6 @@ function init (el, settings) {
 
   el.__prlxRequestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings))
 }
-
 
 function animate (el, scrollPosition, settings) {
   let offset = scrollPosition * settings.speed
@@ -118,7 +126,6 @@ function animate (el, scrollPosition, settings) {
   parallaxType(el, offset, settings.direction)
 }
 
-
 function parallaxBackgroundPosition (el, offset, direction) {
   el.style.transition = `background-position 0.1s ease-out`
 
@@ -129,17 +136,14 @@ function parallaxBackgroundPosition (el, offset, direction) {
   }
 }
 
-
 function parallaxTransform (el, offset, direction) {
   el.style.transition = `transform 0.1s ease-out`
   el.style.transform = `translate${direction.toUpperCase()}(${offset}px)`
 }
 
-
 function addParallaxValueAsCssVariable (el, offset) {
   el.style.setProperty('--parallax-value', offset)
 }
-
 
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h > 0
 

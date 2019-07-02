@@ -20,7 +20,8 @@
         preserveInitialPosition: value.preserveInitialPosition === false ? value.preserveInitialPosition : true,
         direction: value.direction || 'y',
         limit: value.limit || null,
-        mobileMaxWidth: value.mobileMaxWidth || 768
+        mobileMaxWidth: value.mobileMaxWidth || 768,
+        off: value.off || false
       };
 
       if (settings.background) {
@@ -36,7 +37,7 @@
       }
 
       var isMobile = window.innerWidth < settings.mobileMaxWidth;
-      var shouldParallax = isMobile ? settings.isParallaxOnMobile : true;
+      var shouldParallax = isMobile ? settings.isParallaxOnMobile || settings.off : true;
 
       if (shouldParallax) {
         init(el, settings);

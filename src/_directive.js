@@ -34,7 +34,10 @@ export default {
       limit: value.limit || null,
 
       // {number} – mobile max width
-      mobileMaxWidth: value.mobileMaxWidth || 768
+      mobileMaxWidth: value.mobileMaxWidth || 768,
+
+      // {boolean} - directive is disabled
+      off: value.off || false
     }
 
     // DEFAULT SETTINGS FOR BACKGROUND-POSITION
@@ -53,7 +56,7 @@ export default {
 
     const isMobile = window.innerWidth < settings.mobileMaxWidth
     const shouldParallax = isMobile
-      ? settings.isParallaxOnMobile
+      ? settings.isParallaxOnMobile || settings.off
       : true
     if (shouldParallax) {
       init(el, settings)

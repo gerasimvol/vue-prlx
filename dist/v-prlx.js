@@ -107,7 +107,7 @@
 
   function parallaxTransform(el, offset, direction) {
     el.style.transition = "transform 0.1s ease-out";
-    el.style.transform = "translate".concat(direction.toUpperCase(), "(").concat(offset, "px)");
+    el.style.transform = "translate".concat(direction.toUpperCase(), "(").concat(Math.round(offset), "px)");
   }
 
   function addParallaxValueAsCssVariable(el, offset) {

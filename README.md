@@ -1,7 +1,7 @@
 # vue-prlx
 
 [![npm](https://img.shields.io/npm/v/vue-prlx.svg)](https://www.npmjs.com/package/vue-prlx)
-[![npm](https://www.npmjs.com/package/vue-prlx)
+[![npm](https://img.shields.io/npm/dt/vue-prlx.svg)](https://www.npmjs.com/package/vue-prlx)
 
 ## [Demo and settings](http://vue-prlx.surge.sh)
 

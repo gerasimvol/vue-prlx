@@ -4,17 +4,17 @@ export default {
 
   update: onBind,
 
-  unbind: onUnbind
+  unbind: onUnbind,
 }
 
 // FUNCTIONS
 
-function onUnbind (el) {
+function onUnbind(el) {
   window.cancelAnimationFrame(el.__prlxRequestAnimationFrameId)
   delete el.__prlxRequestAnimationFrameId
 }
 
-function onBind (el, { modifiers = {}, value = {} }) {
+function onBind(el, { modifiers = {}, value = {} }) {
   // SETUP SETTING
   const settings = {
     // {boolean} – enable parallax on mobile
@@ -37,9 +37,7 @@ function onBind (el, { modifiers = {}, value = {} }) {
     speed: value.speed || 0.15,
 
     // {boolean} – can parallax to negative values
-    preserveInitialPosition: value.preserveInitialPosition === false
-      ? value.preserveInitialPosition
-      : true,
+    preserveInitialPosition: value.preserveInitialPosition === false ? value.preserveInitialPosition : true,
 
     // {string} – 'x' - horizontal parallax, 'y' - vertical
     direction: value.direction || 'y',
@@ -51,15 +49,22 @@ function onBind (el, { modifiers = {}, value = {} }) {
     mobileMaxWidth: value.mobileMaxWidth || 768,
 
     // {boolean} – is parallax disabled
-    isDisabled: value.disabled || false
+    isDisabled: value.disabled || false,
   }
+
+  // SETUP SCROLLING ELEMENT
+  let scrollingElement = window
+  if (value.scrollingElement) {
+    scrollingElement = document.querySelector(value.scrollingElement)
+  }
+  settings.scrollingElement = scrollingElement
 
   // DEFAULT SETTINGS FOR BACKGROUND-POSITION
   if (settings.background) {
     settings.speed = value.speed || 0.02
     settings.limit = {
       min: 0,
-      max: 100
+      max: 100,
     }
   }
 
@@ -72,23 +77,24 @@ function onBind (el, { modifiers = {}, value = {} }) {
     onUnbind(el)
   } else {
     const isMobile = window.innerWidth < settings.mobileMaxWidth
-    const shouldParallax = isMobile
-      ? settings.isParallaxOnMobile
-      : true
+    const shouldParallax = isMobile ? settings.isParallaxOnMobile : true
     if (shouldParallax) {
       init(el, settings)
     }
   }
 }
 
-function init (el, settings) {
+function init(el, settings) {
   // START PARALLAX FROM MIDDLE OR BOTTOM OF THE SCREEN
   const startingPoint = settings.startParallaxFromBottom
-    ? window.innerHeight
-    : (window.innerHeight / 2)
+    ? settings.scrollingElement.clientHeight
+    : settings.scrollingElement.clientHeight / 2
 
-  const pageYOffset = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
-  let scrollPosition = pageYOffset - offsetTopFromWindow(el) + startingPoint
+  const pageYOffset =
+    settings.scrollingElement.scrollTop ||
+    Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
+
+  let scrollPosition = pageYOffset - offsetTopFromWindow(el, settings.scrollingElement) + startingPoint
 
   // DON'T PARALLAX TO NEGATIVE VALUES (START PARALLAX FROM INITIAL DOM POSITION)
   if (settings.preserveInitialPosition) {
@@ -103,7 +109,7 @@ function init (el, settings) {
   el.__prlxRequestAnimationFrameId = window.requestAnimationFrame(init.bind(null, el, settings))
 }
 
-function animate (el, scrollPosition, settings) {
+function animate(el, scrollPosition, settings) {
   let offset = scrollPosition * settings.speed
 
   // NORMALIZE OFFSET
@@ -126,7 +132,7 @@ function animate (el, scrollPosition, settings) {
   parallaxType(el, offset, settings.direction)
 }
 
-function parallaxBackgroundPosition (el, offset, direction) {
+function parallaxBackgroundPosition(el, offset, direction) {
   el.style.transition = `background-position 0.1s ease-out`
 
   if (direction === 'y') {
@@ -136,22 +142,27 @@ function parallaxBackgroundPosition (el, offset, direction) {
   }
 }
 
-function parallaxTransform (el, offset, direction) {
+function parallaxTransform(el, offset, direction) {
   el.style.transition = `transform 0.1s ease-out`
   el.style.transform = `translate${direction.toUpperCase()}(${Math.round(offset)}px)`
 }
 
-function addParallaxValueAsCssVariable (el, offset) {
+function addParallaxValueAsCssVariable(el, offset) {
   el.style.setProperty('--parallax-value', offset)
 }
 
 const isInViewport = (el, { top: t, height: h } = el.getBoundingClientRect()) => t <= innerHeight && t + h > 0
 
-const offsetTopFromWindow = element => {
+const offsetTopFromWindow = (element, scrollingElement) => {
   let top = 0
   do {
     top += element.offsetTop || 0
     element = element.offsetParent
+
+    // STOP WHEN WE REACH SCROLLING ELEMENT
+    if (element == scrollingElement) {
+      break
+    }
   } while (element)
 
   return top

@@ -86,9 +86,13 @@ function onBind(el, { modifiers = {}, value = {} }) {
 
 function init(el, settings) {
   // START PARALLAX FROM MIDDLE OR BOTTOM OF THE SCREEN
+  const innerHeight =
+  settings.scrollingElement.innerHeight ||
+  settings.scrollingElement.clientHeight
+
   const startingPoint = settings.startParallaxFromBottom
-    ? settings.scrollingElement.clientHeight
-    : settings.scrollingElement.clientHeight / 2
+    ? innerHeight
+    : innerHeight / 2
 
   const pageYOffset =
     settings.scrollingElement.scrollTop ||
